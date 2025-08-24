@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corrector avanzado meteorológico</title>
+<style>
+  /* Fuentes modernas */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 2.2em;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+
+  p {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1em;
+    color: #cfd8dc;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  textarea {
+    width: 45%;
+    min-width: 300px;
+    height: 600px;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    resize: none;
+    color: #333;
+    background-color: #f0f4f8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  textarea:focus {
+    outline: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  }
+
+  button {
+    display: inline-block;
+    margin: 30px 5px 0 5px;
+    padding: 15px 35px;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #0072ff, #00c6ff);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 15px 0;
+    font-size: 0.9em;
+    color: #cfd8dc;
+    letter-spacing: 0.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  footer i {
+    font-size: 1.2em;
+    color: #00c6ff;
+  }
+
+  @media(max-width: 900px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    textarea {
+      width: 90%;
+    }
+  }
+</style>
+<!-- Iconos Phosphor -->
+<link href="https://unpkg.com/phosphor-icons@1.4.2/src/css/phosphor.css" rel="stylesheet">
+</head>
+<body>
+<h1>Corrector avanzado meteorológico</h1>
+<p>Pega tu texto y se corregirá automáticamente: ortografía, abreviaturas de viento, días con fechas. VIS y VTO no se alteran.</p>
+<div class="container">
+  <textarea id="input" placeholder="Texto original..."></textarea>
+  <textarea id="output" readonly placeholder="Texto corregido..."></textarea>
+</div>
+
+<!-- Botones corregir y reiniciar -->
+<div style="text-align:center;">
+  <button onclick="corregir()">Corregir</button>
+  <button onclick="reiniciar()" style="background: linear-gradient(90deg, #ff416c, #ff4b2b);">Reiniciar</button>
+</div>
+
+<script>
+const diccionario = {
+  'COBIERTO':'CUBIERTO',
+  'REGILAR':'REGULAR',
+  'CHOBASCOS':'CHUBASCOS',
+  'GRNIZOS':'GRANIZOS',
+  'PRECEPITACIONES':'PRECIPITACIONES',
+  'POSTFRONTAL':'POSTFRONTAL',
+  'INESTABLE':'INESTABLE',
+  'NUBLADO':'NUBLADO',
+  'ROLANDO':'ROLANDO',
+  'MAR':'MAR',
+  'LLANA':'LLANA',
+  'TEMPERATURA':'TEMPERATURA',
+  'MINIMA':'MINIMA',
+  'MAXIMA':'MAXIMA',
+  'INDICE':'INDICE',
+  'RADIACION':'RADIACION',
+  'ULTRAVIOLETA':'ULTRAVIOLETA',
+  'BAJO':'BAJO',
+  'FUENTE':'FUENTE',
+  'DMC':'DMC'
+};
+
+const dias = ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO'];
+
+function corregir(){
+  let texto = document.getElementById('input').value;
+
+  Object.keys(diccionario).forEach(key => {
+    let regex = new RegExp('\\b'+key+'\\b','gi');
+    texto = texto.replace(regex, diccionario[key]);
+  });
+
+  texto = texto.replace(/(^|[\s.,])N($|[\s.,])/g,'$1NORTE$2');
+  texto = texto.replace(/(^|[\s.,])S($|[\s.,])/g,'$1SUR$2');
+  texto = texto.replace(/(^|[\s.,])E($|[\s.,])/g,'$1ESTE$2');
+  texto = texto.replace(/(^|[\s.,])W($|[\s.,])/g,'$1WESTE$2');
+  texto = texto.replace(/(^|[\s.,])NE($|[\s.,])/g,'$1NORESTE$2');
+  texto = texto.replace(/(^|[\s.,])SE($|[\s.,])/g,'$1SURESTE$2');
+  texto = texto.replace(/(^|[\s.,])NW($|[\s.,])/g,'$1NORWESTE$2');
+  texto = texto.replace(/(^|[\s.,])SW($|[\s.,])/g,'$1SURWESTE$2');
+
+  dias.forEach(dia => {
+    let regex = new RegExp(`\\b${dia}\\b\\s*(\\d{1,2})`, 'gi');
+    texto = texto.replace(regex, (match, num) => `${dia.toUpperCase()} ${num}.`);
+  });
+
+  texto = texto.replace(/ {2,}/g,' '); 
+  texto = texto.replace(/ \//g,'/');
+  texto = texto.replace(/\/ /g,'/');
+  texto = texto.replace(/ °/g,'°');
+  texto = texto.replace(/° /g,'°');
+  texto = texto.replace(/ ,/g,',');
+  texto = texto.replace(/ :/g,':');
+  texto = texto.replace(/\( /g,'(');
+  texto = texto.replace(/ \)/g,')');
+
+  document.getElementById('output').value = texto;
+}
+
+// Función para reiniciar los textareas
+function reiniciar(){
+  document.getElementById('input').value = '';
+  document.getElementById('output').value = '';
+}
+</script>
+
+<footer style="text-align: center; margin-top: 40px; color: #cfd8dc; font-weight: 600;">
+  <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, #00c6ff, transparent); margin-bottom: 10px;"></div>
+  CREADO POR CABO 2º (MET.) FRANCISCO SALAS MUÑOZ
+</footer>
+
+</body>
+</html>
