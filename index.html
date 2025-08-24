@@ -5,198 +5,192 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Corrector avanzado meteorológico</title>
 <style>
-  /* Fuentes modernas */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
   body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 20px;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color: #fff;
+    cursor: default;
   }
 
-  h1 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 2.2em;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  }
+  h1 { text-align:center; margin-bottom:10px; font-weight:600; font-size:2.2em; text-shadow:0 2px 6px rgba(0,0,0,0.4); }
 
-  p {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 1em;
-    color: #cfd8dc;
-  }
+  p { text-align:center; margin-bottom:30px; font-size:1em; color:#cfd8dc; }
 
-  .container {
+  .btn-top {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
     justify-content: center;
-  }
-
-  textarea {
-    width: 45%;
-    min-width: 300px;
-    height: 600px;
-    padding: 15px;
-    font-size: 16px;
-    border-radius: 12px;
-    border: none;
-    resize: none;
-    color: #333;
-    background-color: #f0f4f8;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  textarea:focus {
-    outline: none;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
   }
 
   button {
-    display: inline-block;
-    margin: 30px 5px 0 5px;
-    padding: 15px 35px;
-    cursor: pointer;
+    padding: 12px 28px;
     border: none;
     border-radius: 12px;
-    background: linear-gradient(90deg, #0072ff, #00c6ff);
     color: #fff;
     font-weight: 600;
     font-size: 1em;
+    background-size: 200% 200%;
+    transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
   }
 
-  button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  #btnCorregir { background-image: linear-gradient(270deg,#0072ff,#00c6ff,#0072ff); animation: gradiente 3s ease infinite; }
+  #btnReiniciar { background-image: linear-gradient(270deg,#ff416c,#ff4b2b,#ff416c); animation: gradiente 3s ease infinite; }
+  #btnPDF { background-image: linear-gradient(270deg,#00ff8c,#00c6ff,#00ff8c); animation: gradiente 3s ease infinite; }
+  #btnCopiar { background-image: linear-gradient(270deg,#ffa600,#ff6f00,#ffa600); animation: gradiente 3s ease infinite; }
+
+  @keyframes gradiente {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+  button:active { transform: translateY(0px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+  .container {
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    justify-content:center;
+  }
+
+  textarea {
+    width:45%;
+    min-width:300px;
+    height:600px;
+    padding:15px;
+    font-size:16px;
+    border-radius:12px;
+    border:none;
+    resize:none;
+    color:#333;
+    background-color:#f0f4f8;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor:text;
+  }
+
+  textarea:focus {
+    outline:none;
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(0,0,0,0.2);
   }
 
   footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 15px 0;
-    font-size: 0.9em;
-    color: #cfd8dc;
-    letter-spacing: 0.5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+    text-align:center;
+    margin-top:40px;
+    padding:15px 0;
+    font-size:0.9em;
+    color:#cfd8dc;
+    letter-spacing:0.5px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
   }
 
-  footer i {
-    font-size: 1.2em;
-    color: #00c6ff;
-  }
-
-  @media(max-width: 900px) {
-    .container {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    textarea {
-      width: 90%;
-    }
+  @media(max-width:900px){
+    .container { flex-direction:column; align-items:center; }
+    textarea { width:90%; }
   }
 </style>
-<!-- Iconos Phosphor -->
-<link href="https://unpkg.com/phosphor-icons@1.4.2/src/css/phosphor.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
+
 <h1>Corrector avanzado meteorológico</h1>
+
+<div class="btn-top">
+  <button id="btnCorregir" onclick="corregir()">Corregir</button>
+  <button id="btnCopiar" onclick="copiarTexto()">Copiar</button>
+  <button id="btnPDF" onclick="descargarPDF()">Descargar PDF</button>
+  <button id="btnReiniciar" onclick="reiniciar()">Reiniciar</button>
+</div>
+
 <p>Pega tu texto y se corregirá automáticamente: ortografía, abreviaturas de viento, días con fechas. VIS y VTO no se alteran.</p>
+
 <div class="container">
   <textarea id="input" placeholder="Texto original..."></textarea>
   <textarea id="output" readonly placeholder="Texto corregido..."></textarea>
 </div>
 
-<!-- Botones corregir y reiniciar -->
-<div style="text-align:center;">
-  <button onclick="corregir()">Corregir</button>
-  <button onclick="reiniciar()" style="background: linear-gradient(90deg, #ff416c, #ff4b2b);">Reiniciar</button>
-</div>
-
 <script>
 const diccionario = {
-  'COBIERTO':'CUBIERTO',
-  'REGILAR':'REGULAR',
-  'CHOBASCOS':'CHUBASCOS',
-  'GRNIZOS':'GRANIZOS',
-  'PRECEPITACIONES':'PRECIPITACIONES',
-  'POSTFRONTAL':'POSTFRONTAL',
-  'INESTABLE':'INESTABLE',
-  'NUBLADO':'NUBLADO',
-  'ROLANDO':'ROLANDO',
-  'MAR':'MAR',
-  'LLANA':'LLANA',
-  'TEMPERATURA':'TEMPERATURA',
-  'MINIMA':'MINIMA',
-  'MAXIMA':'MAXIMA',
-  'INDICE':'INDICE',
-  'RADIACION':'RADIACION',
-  'ULTRAVIOLETA':'ULTRAVIOLETA',
-  'BAJO':'BAJO',
-  'FUENTE':'FUENTE',
-  'DMC':'DMC'
+'COBIERTO':'CUBIERTO','REGILAR':'REGULAR','CHOBASCOS':'CHUBASCOS','GRNIZOS':'GRANIZOS',
+'PRECEPITACIONES':'PRECIPITACIONES','POSTFRONTAL':'POSTFRONTAL','INESTABLE':'INESTABLE',
+'NUBLADO':'NUBLADO','ROLANDO':'ROLANDO','MAR':'MAR','LLANA':'LLANA','TEMPERATURA':'TEMPERATURA',
+'MINIMA':'MINIMA','MAXIMA':'MAXIMA','INDICE':'INDICE','RADIACION':'RADIACION','ULTRAVIOLETA':'ULTRAVIOLETA',
+'BAJO':'BAJO','FUENTE':'FUENTE','DMC':'DMC'
 };
 
 const dias = ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO'];
+const reemplazos = { 'N':'NORTE','S':'SUR','E':'ESTE','W':'WESTE','NE':'NORESTE','SE':'SURESTE','NW':'NORWESTE','SW':'SURWESTE' };
 
 function corregir(){
-  let texto = document.getElementById('input').value;
+    let texto = document.getElementById('input').value;
+    Object.keys(diccionario).forEach(key=>{
+        texto = texto.replace(new RegExp('\\b'+key+'\\b','gi'), diccionario[key]);
+    });
+    texto = texto.toUpperCase();
 
-  Object.keys(diccionario).forEach(key => {
-    let regex = new RegExp('\\b'+key+'\\b','gi');
-    texto = texto.replace(regex, diccionario[key]);
-  });
+    // Proteger abreviaturas con '/'
+    const regexCompuestas = /\b(N|S|E|W|NE|NW|SE|SW)\/(N|S|E|W|NE|NW|SE|SW)\b/gi;
+    const protecciones = [];
+    texto = texto.replace(regexCompuestas, match=>{
+        protecciones.push(match);
+        return `@@PROTEGIDO${protecciones.length-1}@@`;
+    });
 
-  texto = texto.replace(/(^|[\s.,])N($|[\s.,])/g,'$1NORTE$2');
-  texto = texto.replace(/(^|[\s.,])S($|[\s.,])/g,'$1SUR$2');
-  texto = texto.replace(/(^|[\s.,])E($|[\s.,])/g,'$1ESTE$2');
-  texto = texto.replace(/(^|[\s.,])W($|[\s.,])/g,'$1WESTE$2');
-  texto = texto.replace(/(^|[\s.,])NE($|[\s.,])/g,'$1NORESTE$2');
-  texto = texto.replace(/(^|[\s.,])SE($|[\s.,])/g,'$1SURESTE$2');
-  texto = texto.replace(/(^|[\s.,])NW($|[\s.,])/g,'$1NORWESTE$2');
-  texto = texto.replace(/(^|[\s.,])SW($|[\s.,])/g,'$1SURWESTE$2');
+    // Reemplazo simples
+    Object.keys(reemplazos).forEach(abrev=>{
+        texto = texto.replace(new RegExp(`\\b${abrev}\\b`, 'g'), reemplazos[abrev]);
+    });
 
-  dias.forEach(dia => {
-    let regex = new RegExp(`\\b${dia}\\b\\s*(\\d{1,2})`, 'gi');
-    texto = texto.replace(regex, (match, num) => `${dia.toUpperCase()} ${num}.`);
-  });
+    // Restaurar compuestas
+    protecciones.forEach((val,i)=>{
+        texto = texto.replace(`@@PROTEGIDO${i}@@`, val.toUpperCase());
+    });
 
-  texto = texto.replace(/ {2,}/g,' '); 
-  texto = texto.replace(/ \//g,'/');
-  texto = texto.replace(/\/ /g,'/');
-  texto = texto.replace(/ °/g,'°');
-  texto = texto.replace(/° /g,'°');
-  texto = texto.replace(/ ,/g,',');
-  texto = texto.replace(/ :/g,':');
-  texto = texto.replace(/\( /g,'(');
-  texto = texto.replace(/ \)/g,')');
+    // Días
+    dias.forEach(dia=>{
+        texto = texto.replace(new RegExp(`\\b${dia}\\b\\s*(\\d{1,2})`,'gi'), (m,n)=>`${dia.toUpperCase()} ${n}.`);
+    });
 
-  document.getElementById('output').value = texto;
+    // Limpieza de espacios y signos
+    texto = texto.replace(/ {2,}/g,' ')
+                 .replace(/ \//g,'/')
+                 .replace(/\/ /g,'/')
+                 .replace(/ °/g,'°')
+                 .replace(/° /g,'°')
+                 .replace(/ ,/g,',')
+                 .replace(/ :/g,':')
+                 .replace(/\( /g,'(')
+                 .replace(/ \)/g,')');
+
+    // Reducir múltiples líneas vacías consecutivas a una sola línea vacía
+    texto = texto.replace(/\n{2,}/g, '\n\n');
+
+    document.getElementById('output').value = texto;
 }
 
-// Función para reiniciar los textareas
-function reiniciar(){
-  document.getElementById('input').value = '';
-  document.getElementById('output').value = '';
-}
+function reiniciar(){ document.getElementById('input').value=''; document.getElementById('output').value=''; }
+function descargarPDF(){ const { jsPDF } = window.jspdf; const doc = new jsPDF(); const texto=document.getElementById('output').value; doc.text(doc.splitTextToSize(texto,190),10,10); doc.save("texto_corregido.pdf"); }
+function copiarTexto(){ const output=document.getElementById('output'); output.select(); output.setSelectionRange(0,99999); navigator.clipboard.writeText(output.value).then(()=>alert('Texto copiado al portapapeles ✅')).catch(()=>alert('Error al copiar el texto ❌')); }
 </script>
 
-<footer style="text-align: center; margin-top: 40px; color: #cfd8dc; font-weight: 600;">
-  <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, #00c6ff, transparent); margin-bottom: 10px;"></div>
-  CREADO POR CABO 2º (MET.) FRANCISCO SALAS MUÑOZ
+<footer style="text-align:center;margin-top:40px;color:#cfd8dc;font-weight:600;">
+<div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,#00c6ff,transparent);margin-bottom:10px;"></div>
+CREADO POR CABO 2º (MET.) FRANCISCO SALAS MUÑOZ
 </footer>
-
 </body>
 </html>
