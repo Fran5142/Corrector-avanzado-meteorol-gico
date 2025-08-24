@@ -45,7 +45,6 @@
 
   #btnCorregir { background-image: linear-gradient(270deg,#0072ff,#00c6ff,#0072ff); animation: gradiente 3s ease infinite; }
   #btnReiniciar { background-image: linear-gradient(270deg,#ff416c,#ff4b2b,#ff416c); animation: gradiente 3s ease infinite; }
-  #btnPDF { background-image: linear-gradient(270deg,#00ff8c,#00c6ff,#00ff8c); animation: gradiente 3s ease infinite; }
   #btnCopiar { background-image: linear-gradient(270deg,#ffa600,#ff6f00,#ffa600); animation: gradiente 3s ease infinite; }
 
   @keyframes gradiente {
@@ -113,7 +112,6 @@
 <div class="btn-top">
   <button id="btnCorregir" onclick="corregir()">Corregir</button>
   <button id="btnCopiar" onclick="copiarTexto()">Copiar</button>
-  <button id="btnPDF" onclick="descargarPDF()">Descargar PDF</button>
   <button id="btnReiniciar" onclick="reiniciar()">Reiniciar</button>
 </div>
 
@@ -126,11 +124,27 @@
 
 <script>
 const diccionario = {
-'COBIERTO':'CUBIERTO','REGILAR':'REGULAR','CHOBASCOS':'CHUBASCOS','GRNIZOS':'GRANIZOS',
-'PRECEPITACIONES':'PRECIPITACIONES','POSTFRONTAL':'POSTFRONTAL','INESTABLE':'INESTABLE',
-'NUBLADO':'NUBLADO','ROLANDO':'ROLANDO','MAR':'MAR','LLANA':'LLANA','TEMPERATURA':'TEMPERATURA',
-'MINIMA':'MINIMA','MAXIMA':'MAXIMA','INDICE':'INDICE','RADIACION':'RADIACION','ULTRAVIOLETA':'ULTRAVIOLETA',
-'BAJO':'BAJO','FUENTE':'FUENTE','DMC':'DMC'
+'COBIERTO':'CUBIERTO',
+'REGILAR':'REGULAR',
+'BUINA':'BUENA',
+'CHOBASCOS':'CHUBASCOS',
+'GRNIZOS':'GRANIZOS',
+'PRECEPITACIONES':'PRECIPITACIONES',
+'POSTFRONTAL':'POSTFRONTAL',
+'INESTABLE':'INESTABLE',
+'NUBLADO':'NUBLADO',
+'ROLANDO':'ROLANDO',
+'MAR':'MAR',
+'LLANA':'LLANA',
+'TEMPERATURA':'TEMPERATURA',
+'MINIMA':'MINIMA',
+'MAXIMA':'MAXIMA',
+'INDICE':'INDICE',
+'RADIACION':'RADIACION',
+'ULTRAVIOLETA':'ULTRAVIOLETA',
+'BAJO':'BAJO',
+'FUENTE':'FUENTE',
+'DMC':'DMC'
 };
 
 const dias = ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO'];
@@ -180,11 +194,13 @@ function corregir(){
     // Reducir múltiples líneas vacías consecutivas a una sola línea vacía
     texto = texto.replace(/\n{2,}/g, '\n\n');
 
+    // Eliminar espacios al inicio y final de cada línea
+    texto = texto.split('\n').map(line => line.trim()).join('\n');
+
     document.getElementById('output').value = texto;
 }
 
 function reiniciar(){ document.getElementById('input').value=''; document.getElementById('output').value=''; }
-function descargarPDF(){ const { jsPDF } = window.jspdf; const doc = new jsPDF(); const texto=document.getElementById('output').value; doc.text(doc.splitTextToSize(texto,190),10,10); doc.save("texto_corregido.pdf"); }
 function copiarTexto(){ const output=document.getElementById('output'); output.select(); output.setSelectionRange(0,99999); navigator.clipboard.writeText(output.value).then(()=>alert('Texto copiado al portapapeles ✅')).catch(()=>alert('Error al copiar el texto ❌')); }
 </script>
 
