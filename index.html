@@ -10,181 +10,203 @@
   body {
     font-family: 'Inter', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color: #fff;
     cursor: default;
   }
 
-  /* Pantalla de login */
-  #loginScreen {
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    display:flex; flex-direction:column; justify-content:center; align-items:center;
-    z-index:1000;
-  }
-
-  #loginScreen h2 {
-    margin-bottom:20px;
-    font-size:2em;
-    text-shadow:0 2px 6px rgba(0,0,0,0.4);
-  }
-
-  #loginScreen input {
-    padding:12px 20px;
-    margin:8px 0;
-    border:none;
-    border-radius:12px;
-    width:250px;
-    font-size:1em;
-    outline:none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  #loginScreen input:focus {
-    transform: translateY(-2px);
-    box-shadow:0 6px 18px rgba(0,0,0,0.2);
-  }
-
-  #loginScreen button {
-    padding:12px 28px;
-    border:none;
-    border-radius:12px;
-    color:#fff;
-    font-weight:600;
-    font-size:1em;
-    background-size:200% 200%;
-    margin-top:12px;
-    cursor:pointer;
-    box-shadow:0 4px 12px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-    background-image: linear-gradient(270deg,#0072ff,#00c6ff,#0072ff);
-    animation: gradiente 3s ease infinite;
-  }
-
-  #loginScreen button:hover { transform: translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,0.3); }
-  #loginScreen button:active { transform: translateY(0px); box-shadow:0 4px 12px rgba(0,0,0,0.2); }
-
-  @keyframes gradiente {
-    0% { background-position:0% 50%; }
-    50% { background-position:100% 50%; }
-    100% { background-position:0% 50%; }
-  }
-
-  /* Resto de la página */
   h1 { text-align:center; margin-bottom:10px; font-weight:600; font-size:2.2em; text-shadow:0 2px 6px rgba(0,0,0,0.4); }
+
   p { text-align:center; margin-bottom:30px; font-size:1em; color:#cfd8dc; }
-  .btn-top { display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
-  button { padding:12px 28px; border:none; border-radius:12px; color:#fff; font-weight:600; font-size:1em; background-size:200% 200%; transition: all 0.3s ease; box-shadow:0 4px 12px rgba(0,0,0,0.2); position: relative; overflow: hidden; cursor: pointer; }
+
+  .btn-top {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    background-size: 200% 200%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
   #btnCorregir { background-image: linear-gradient(270deg,#0072ff,#00c6ff,#0072ff); animation: gradiente 3s ease infinite; }
   #btnReiniciar { background-image: linear-gradient(270deg,#ff416c,#ff4b2b,#ff416c); animation: gradiente 3s ease infinite; }
   #btnCopiar { background-image: linear-gradient(270deg,#ffa600,#ff6f00,#ffa600); animation: gradiente 3s ease infinite; }
+
+  @keyframes gradiente {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
   button:active { transform: translateY(0px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-  .container { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
-  textarea { width:45%; min-width:300px; height:600px; padding:15px; font-size:16px; border-radius:12px; border:none; resize:none; color:#333; background-color:#f0f4f8; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s ease, box-shadow 0.2s ease; cursor:text; }
-  textarea:focus { outline:none; transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,0.2); }
-  footer { text-align:center; margin-top:40px; padding:15px 0; font-size:0.9em; color:#cfd8dc; letter-spacing:0.5px; display:flex; flex-direction:column; align-items:center; gap:6px; }
-  @media(max-width:900px){ .container { flex-direction:column; align-items:center; } textarea { width:90%; } }
+
+  .container {
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    justify-content:center;
+  }
+
+  textarea {
+    width:45%;
+    min-width:300px;
+    height:600px;
+    padding:15px;
+    font-size:16px;
+    border-radius:12px;
+    border:none;
+    resize:none;
+    color:#333;
+    background-color:#f0f4f8;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor:text;
+  }
+
+  textarea:focus {
+    outline:none;
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(0,0,0,0.2);
+  }
+
+  footer {
+    text-align:center;
+    margin-top:40px;
+    padding:15px 0;
+    font-size:0.9em;
+    color:#cfd8dc;
+    letter-spacing:0.5px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+
+  @media(max-width:900px){
+    .container { flex-direction:column; align-items:center; }
+    textarea { width:90%; }
+  }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-<!-- PANTALLA DE LOGIN -->
-<div id="loginScreen">
-  <h2>Ingreso Corrector Meteorológico</h2>
-  <input type="text" id="usuario" placeholder="Usuario">
-  <input type="password" id="clave" placeholder="Contraseña">
-  <button onclick="verificarLogin()">Ingresar</button>
+<h1>Corrector avanzado meteorológico</h1>
+
+<div class="btn-top">
+  <button id="btnCorregir" onclick="corregir()">Corregir</button>
+  <button id="btnCopiar" onclick="copiarTexto()">Copiar</button>
+  <button id="btnReiniciar" onclick="reiniciar()">Reiniciar</button>
 </div>
 
-<!-- PÁGINA PRINCIPAL -->
-<div id="mainContent" style="display:none;">
-  <h1>Corrector avanzado meteorológico</h1>
+<p>Pega tu texto y se corregirá automáticamente: ortografía, abreviaturas de viento, días con fechas. VIS y VTO no se alteran.</p>
 
-  <div class="btn-top">
-    <button id="btnCorregir" onclick="corregir()">Corregir</button>
-    <button id="btnCopiar" onclick="copiarTexto()">Copiar</button>
-    <button id="btnReiniciar" onclick="reiniciar()">Reiniciar</button>
-  </div>
-
-  <p>Pega tu texto y se corregirá automáticamente: ortografía, abreviaturas de viento, días con fechas. VIS y VTO no se alteran.</p>
-
-  <div class="container">
-    <textarea id="input" placeholder="Texto original..."></textarea>
-    <textarea id="output" readonly placeholder="Texto corregido..."></textarea>
-  </div>
-
-  <footer style="text-align:center;margin-top:40px;color:#cfd8dc;font-weight:600;">
-    <div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,#00c6ff,transparent);margin-bottom:10px;"></div>
-    CREADO POR CABO 2º (MET.) FRANCISCO SALAS MUÑOZ
-  </footer>
+<div class="container">
+  <textarea id="input" placeholder="Texto original..."></textarea>
+  <textarea id="output" readonly placeholder="Texto corregido..."></textarea>
 </div>
 
 <script>
-/* LOGIN */
-const USUARIO = '18563173';
-const CLAVE = '1234';
-
-function verificarLogin(){
-  const u = document.getElementById('usuario').value.trim();
-  const c = document.getElementById('clave').value.trim();
-  if(u === USUARIO && c === CLAVE){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('mainContent').style.display='block';
-  } else {
-    alert('Usuario o contraseña incorrectos ❌');
-  }
-}
-
-/* CORRECTOR */
 const diccionario = {
-  'COBIERTO':'CUBIERTO','REGILAR':'REGULAR','BUINA':'BUENA','CHOBASCOS':'CHUBASCOS','GRNIZOS':'GRANIZOS',
-  'PRECEPITACIONES':'PRECIPITACIONES','POSTFRONTAL':'POSTFRONTAL','INESTABLE':'INESTABLE','NUBLADO':'NUBLADO',
-  'ROLANDO':'ROLANDO','MAR':'MAR','LLANA':'LLANA','TEMPERATURA':'TEMPERATURA','MINIMA':'MINIMA',
-  'MAXIMA':'MAXIMA','INDICE':'INDICE','RADIACION':'RADIACION','ULTRAVIOLETA':'ULTRAVIOLETA','BAJO':'BAJO',
-  'FUENTE':'FUENTE','DMC':'DMC'
+'COBIERTO':'CUBIERTO',
+'REGILAR':'REGULAR',
+'BUINA':'BUENA',
+'CHOBASCOS':'CHUBASCOS',
+'GRNIZOS':'GRANIZOS',
+'PRECEPITACIONES':'PRECIPITACIONES',
+'POSTFRONTAL':'POSTFRONTAL',
+'INESTABLE':'INESTABLE',
+'NUBLADO':'NUBLADO',
+'ROLANDO':'ROLANDO',
+'MAR':'MAR',
+'LLANA':'LLANA',
+'TEMPERATURA':'TEMPERATURA',
+'MINIMA':'MINIMA',
+'MAXIMA':'MAXIMA',
+'INDICE':'INDICE',
+'RADIACION':'RADIACION',
+'ULTRAVIOLETA':'ULTRAVIOLETA',
+'BAJO':'BAJO',
+'FUENTE':'FUENTE',
+'DMC':'DMC'
 };
 
 const dias = ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO'];
 const reemplazos = { 'N':'NORTE','S':'SUR','E':'ESTE','W':'WESTE','NE':'NORESTE','SE':'SURESTE','NW':'NORWESTE','SW':'SURWESTE' };
 
 function corregir(){
-  let texto = document.getElementById('input').value;
-  Object.keys(diccionario).forEach(key=>{ texto = texto.replace(new RegExp('\\b'+key+'\\b','gi'), diccionario[key]); });
-  texto = texto.toUpperCase();
+    let texto = document.getElementById('input').value;
+    Object.keys(diccionario).forEach(key=>{
+        texto = texto.replace(new RegExp('\\b'+key+'\\b','gi'), diccionario[key]);
+    });
+    texto = texto.toUpperCase();
 
-  const regexCompuestas = /\b(N|S|E|W|NE|NW|SE|SW)\/(N|S|E|W|NE|NW|SE|SW)\b/gi;
-  const protecciones = [];
-  texto = texto.replace(regexCompuestas, match=>{ protecciones.push(match); return `@@PROTEGIDO${protecciones.length-1}@@`; });
+    // Proteger abreviaturas con '/'
+    const regexCompuestas = /\b(N|S|E|W|NE|NW|SE|SW)\/(N|S|E|W|NE|NW|SE|SW)\b/gi;
+    const protecciones = [];
+    texto = texto.replace(regexCompuestas, match=>{
+        protecciones.push(match);
+        return `@@PROTEGIDO${protecciones.length-1}@@`;
+    });
 
-  Object.keys(reemplazos).forEach(abrev=>{ texto = texto.replace(new RegExp(`\\b${abrev}\\b`, 'g'), reemplazos[abrev]); });
+    // Reemplazo simples
+    Object.keys(reemplazos).forEach(abrev=>{
+        texto = texto.replace(new RegExp(`\\b${abrev}\\b`, 'g'), reemplazos[abrev]);
+    });
 
-  protecciones.forEach((val,i)=>{ texto = texto.replace(`@@PROTEGIDO${i}@@`, val.toUpperCase()); });
+    // Restaurar compuestas
+    protecciones.forEach((val,i)=>{
+        texto = texto.replace(`@@PROTEGIDO${i}@@`, val.toUpperCase());
+    });
 
-  dias.forEach(dia=>{ texto = texto.replace(new RegExp(`\\b${dia}\\b\\s*(\\d{1,2})`,'gi'), (m,n)=>`${dia.toUpperCase()} ${n}.`); });
+    // Días
+    dias.forEach(dia=>{
+        texto = texto.replace(new RegExp(`\\b${dia}\\b\\s*(\\d{1,2})`,'gi'), (m,n)=>`${dia.toUpperCase()} ${n}.`);
+    });
 
-  texto = texto.replace(/ {2,}/g,' ')
-               .replace(/ \//g,'/')
-               .replace(/\/ /g,'/')
-               .replace(/ °/g,'°')
-               .replace(/° /g,'°')
-               .replace(/ ,/g,',')
-               .replace(/ :/g,':')
-               .replace(/\( /g,'(')
-               .replace(/ \)/g,')');
+    // Limpieza de espacios y signos
+    texto = texto.replace(/ {2,}/g,' ')
+                 .replace(/ \//g,'/')
+                 .replace(/\/ /g,'/')
+                 .replace(/ °/g,'°')
+                 .replace(/° /g,'°')
+                 .replace(/ ,/g,',')
+                 .replace(/ :/g,':')
+                 .replace(/\( /g,'(')
+                 .replace(/ \)/g,')');
 
-  texto = texto.replace(/\n{2,}/g, '\n\n');
-  texto = texto.split('\n').map(line => line.trim()).join('\n');
+    // Reducir múltiples líneas vacías consecutivas a una sola línea vacía
+    texto = texto.replace(/\n{2,}/g, '\n\n');
 
-  document.getElementById('output').value = texto;
+    // Eliminar espacios al inicio y final de cada línea
+    texto = texto.split('\n').map(line => line.trim()).join('\n');
+
+    document.getElementById('output').value = texto;
 }
 
 function reiniciar(){ document.getElementById('input').value=''; document.getElementById('output').value=''; }
 function copiarTexto(){ const output=document.getElementById('output'); output.select(); output.setSelectionRange(0,99999); navigator.clipboard.writeText(output.value).then(()=>alert('Texto copiado al portapapeles ✅')).catch(()=>alert('Error al copiar el texto ❌')); }
 </script>
 
+<footer style="text-align:center;margin-top:40px;color:#cfd8dc;font-weight:600;">
+<div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,#00c6ff,transparent);margin-bottom:10px;"></div>
+CREADO POR CABO 2º (MET.) FRANCISCO SALAS MUÑOZ
+</footer>
 </body>
 </html>
