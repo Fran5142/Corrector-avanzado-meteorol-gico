@@ -201,7 +201,7 @@ function corregir(){
 }
 
 function reiniciar(){ document.getElementById('input').value=''; document.getElementById('output').value=''; }
-function copiarTexto(){ const output=document.getElementById('output'); output.select(); output.setSelectionRange(0,99999); navigator.clipboard.writeText(output.value).then(()=>alert('Texto copiado al portapapeles ✅')).catch(()=>alert('Error al copiar el texto ❌')); }
+function copiarTexto(){ const output=document.getElementById('output'); output.select(); output.setSelectionRange(0,99999); navigator.clipboard.writeText(output.value)}
 </script>
 
 <footer style="text-align:center;margin-top:40px;color:#cfd8dc;font-weight:600;">
@@ -210,3 +210,4 @@ CREADO POR CABO 2º (MET.) FRANCISCO SALAS MUÑOZ
 </footer>
 </body>
 </html>
+
