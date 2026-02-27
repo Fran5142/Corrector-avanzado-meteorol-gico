@@ -11,9 +11,11 @@
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 20px;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    /* COLOR AZUL MARINO */
+    background-color: #001233; 
     color: #fff;
     cursor: default;
+    min-height: 100vh;
   }
 
   h1 { text-align:center; margin-bottom:10px; font-weight:600; font-size:2.2em; text-shadow:0 2px 6px rgba(0,0,0,0.4); }
@@ -72,8 +74,8 @@
     border-radius:12px;
     border:none;
     resize:none;
-    color:#333;
-    background-color:#f0f4f8;
+    color:#333; /* Texto oscuro para leer sobre blanco */
+    background-color:#ffffff; /* Cuadros en blanco */
     box-shadow:0 4px 12px rgba(0,0,0,0.15);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor:text;
@@ -127,12 +129,8 @@ const diccionario = {
 'COBIERTO':'CUBIERTO',
 'REGILAR':'REGULAR',
 'BUINA':'BUENA',
-
 'AUEMTANDO':'AUMENTANDO',
 'ANTICICLINICO':'ANTICICLONICO',
-
-
-
 'CHOBASCOS':'CHUBASCOS',
 'GRNIZOS':'GRANIZOS',
 'PRECEPITACIONES':'PRECIPITACIONES',
@@ -150,7 +148,9 @@ const diccionario = {
 'ULTRAVIOLETA':'ULTRAVIOLETA',
 'BAJO':'BAJO',
 'FUENTE':'FUENTE',
-'DMC':'DMC'
+'DMC':'DMC',
+'VTO':'VIENTO',
+'VISIBILIDAD':'VIS',
 };
 
 const dias = ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO'];
@@ -163,7 +163,6 @@ function corregir(){
     });
     texto = texto.toUpperCase();
 
-    // Proteger abreviaturas con '/'
     const regexCompuestas = /\b(N|S|E|W|NE|NW|SE|SW)\/(N|S|E|W|NE|NW|SE|SW)\b/gi;
     const protecciones = [];
     texto = texto.replace(regexCompuestas, match=>{
@@ -171,22 +170,18 @@ function corregir(){
         return `@@PROTEGIDO${protecciones.length-1}@@`;
     });
 
-    // Reemplazo simples
     Object.keys(reemplazos).forEach(abrev=>{
         texto = texto.replace(new RegExp(`\\b${abrev}\\b`, 'g'), reemplazos[abrev]);
     });
 
-    // Restaurar compuestas
     protecciones.forEach((val,i)=>{
         texto = texto.replace(`@@PROTEGIDO${i}@@`, val.toUpperCase());
     });
 
-    // Días
     dias.forEach(dia=>{
         texto = texto.replace(new RegExp(`\\b${dia}\\b\\s*(\\d{1,2})`,'gi'), (m,n)=>`${dia.toUpperCase()} ${n}.`);
     });
 
-    // Limpieza de espacios y signos
     texto = texto.replace(/ {2,}/g,' ')
                  .replace(/ \//g,'/')
                  .replace(/\/ /g,'/')
@@ -197,10 +192,7 @@ function corregir(){
                  .replace(/\( /g,'(')
                  .replace(/ \)/g,')');
 
-    // Reducir múltiples líneas vacías consecutivas a una sola línea vacía
     texto = texto.replace(/\n{2,}/g, '\n\n');
-
-    // Eliminar espacios al inicio y final de cada línea
     texto = texto.split('\n').map(line => line.trim()).join('\n');
 
     document.getElementById('output').value = texto;
@@ -215,3 +207,4 @@ function copiarTexto(){ const output=document.getElementById('output'); output.s
 CREADO POR CABO 2º (MET.) FRANCISCO SALAS MUÑOZ
 </footer>
 </body>
+</html>
