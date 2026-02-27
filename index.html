@@ -178,9 +178,22 @@ function corregir(){
         texto = texto.replace(`@@PROTEGIDO${i}@@`, val.toUpperCase());
     });
 
-    dias.forEach(dia=>{
-        texto = texto.replace(new RegExp(`\\b${dia}\\b\\s*(\\d{1,2})`,'gi'), (m,n)=>`${dia.toUpperCase()} ${n}.`);
+    // --- NUEVA LÓGICA DE FECHAS MEJORADA ---
+    dias.forEach(dia => {
+        // Expresión para capturar: DIA + NUMERO + (opcionalmente DE + MES)
+        // Ejemplo: "MARTES 13" o "MARTES 13 DE JULIO"
+        const regexFecha = new RegExp(`(\\b${dia}\\b\\s*\\d{1,2}(?:\\s+DE\\s+[A-Z]+)?)`, 'gi');
+        
+        texto = texto.replace(regexFecha, (match) => {
+            // Buscamos qué hay justo después del match en el texto original
+            let idx = texto.indexOf(match) + match.length;
+            let sigChar = texto.charAt(idx);
+
+            // Si ya tiene un punto, lo dejamos igual. Si no, le ponemos punto.
+            return (sigChar === '.') ? match.toUpperCase() : match.toUpperCase() + ".";
+        });
     });
+    // ---------------------------------------
 
     texto = texto.replace(/ {2,}/g,' ')
                  .replace(/ \//g,'/')
