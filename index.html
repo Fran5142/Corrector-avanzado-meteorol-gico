@@ -11,7 +11,6 @@
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 20px;
-    /* COLOR AZUL MARINO */
     background-color: #001233; 
     color: #fff;
     cursor: default;
@@ -74,8 +73,8 @@
     border-radius:12px;
     border:none;
     resize:none;
-    color:#333; /* Texto oscuro para leer sobre blanco */
-    background-color:#ffffff; /* Cuadros en blanco */
+    color:#333; 
+    background-color:#ffffff; 
     box-shadow:0 4px 12px rgba(0,0,0,0.15);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor:text;
@@ -105,7 +104,6 @@
     textarea { width:90%; }
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -154,15 +152,30 @@ const diccionario = {
 };
 
 const dias = ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO'];
-const reemplazos = { 'N':'NORTE','S':'SUR','E':'ESTE','W':'WESTE','NE':'NORESTE','SE':'SURESTE','NW':'NORWESTE','SW':'SURWESTE' };
+
+// Reemplazos ajustados: NW -> NORWESTE y SW -> SURWESTE
+const reemplazos = { 
+  'N':'NORTE',
+  'S':'SUR',
+  'E':'ESTE',
+  'W':'WESTE',
+  'NE':'NORESTE',
+  'SE':'SURESTE',
+  'NW':'NORWESTE', 
+  'SW':'SURWESTE' 
+};
 
 function corregir(){
     let texto = document.getElementById('input').value;
+    
+    // 1. Aplicar diccionario
     Object.keys(diccionario).forEach(key=>{
         texto = texto.replace(new RegExp('\\b'+key+'\\b','gi'), diccionario[key]);
     });
+    
     texto = texto.toUpperCase();
 
+    // 2. Protecciones de rumbos compuestos (ej: N/NW)
     const regexCompuestas = /\b(N|S|E|W|NE|NW|SE|SW)\/(N|S|E|W|NE|NW|SE|SW)\b/gi;
     const protecciones = [];
     texto = texto.replace(regexCompuestas, match=>{
@@ -170,31 +183,27 @@ function corregir(){
         return `@@PROTEGIDO${protecciones.length-1}@@`;
     });
 
+    // 3. Reemplazo de rumbos simples (Aquí NW se vuelve NORWESTE)
     Object.keys(reemplazos).forEach(abrev=>{
         texto = texto.replace(new RegExp(`\\b${abrev}\\b`, 'g'), reemplazos[abrev]);
     });
 
+    // 4. Restaurar rumbos con barra
     protecciones.forEach((val,i)=>{
         texto = texto.replace(`@@PROTEGIDO${i}@@`, val.toUpperCase());
     });
 
-    // --- NUEVA LÓGICA DE FECHAS MEJORADA ---
+    // 5. Lógica de fechas mejorada
     dias.forEach(dia => {
-        // Expresión para capturar: DIA + NUMERO + (opcionalmente DE + MES)
-        // Ejemplo: "MARTES 13" o "MARTES 13 DE JULIO"
         const regexFecha = new RegExp(`(\\b${dia}\\b\\s*\\d{1,2}(?:\\s+DE\\s+[A-Z]+)?)`, 'gi');
-        
         texto = texto.replace(regexFecha, (match) => {
-            // Buscamos qué hay justo después del match en el texto original
             let idx = texto.indexOf(match) + match.length;
             let sigChar = texto.charAt(idx);
-
-            // Si ya tiene un punto, lo dejamos igual. Si no, le ponemos punto.
             return (sigChar === '.') ? match.toUpperCase() : match.toUpperCase() + ".";
         });
     });
-    // ---------------------------------------
 
+    // 6. Limpieza de espacios y símbolos
     texto = texto.replace(/ {2,}/g,' ')
                  .replace(/ \//g,'/')
                  .replace(/\/ /g,'/')
@@ -207,6 +216,12 @@ function corregir(){
 
     texto = texto.replace(/\n{2,}/g, '\n\n');
     texto = texto.split('\n').map(line => line.trim()).join('\n');
+
+    // --- REGLA ESPECIAL PARA "SE INFORMARAN OPORTUNAMENTE" ---
+    // Esta regla devuelve "SURESTE" a "SE" solo en esta frase específica
+    texto = texto.replace(/SURESTE INFORMARAN OPORTUNAMENTE/g, 'SE INFORMARAN OPORTUNAMENTE');
+    texto = texto.replace(/SURESTE INFORMARÁN OPORTUNAMENTE/g, 'SE INFORMARÁN OPORTUNAMENTE');
+    // --------------------------------------------------------
 
     document.getElementById('output').value = texto;
 }
